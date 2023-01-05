@@ -7,28 +7,18 @@ import (
 )
 
 type Block struct {
-	index     int
-	prevHash  string
-	data      string
-	timestamp time.Time
-	bits      int
+	Index     int
+	PrevHash  string
+	Data      string
+	Timestamp time.Time
+	Bits      int
 }
 
-func NewBlock(index int, prevHash string, data string, timestamp time.Time, bits int) *Block {
-	b := new(Block)
-	b.index = index
-	b.prevHash = prevHash
-	b.data = data
-	b.timestamp = timestamp
-	b.bits = bits
-	return b
-}
-
-func (b Block) ToJson() ([]byte, error) {
+func (b Block) ToJson() (string, error) {
 	jsonData, err := json.Marshal(b)
 	if err != nil {
 		fmt.Println(err)
-		return nil, err
+		return "", err
 	}
-	return jsonData, nil
+	return string(jsonData), nil
 }
