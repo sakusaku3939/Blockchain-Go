@@ -11,7 +11,7 @@ func TestBlock_ToJson(t *testing.T) {
 		PrevHash  string
 		Data      string
 		Timestamp time.Time
-		Bits      int
+		Bits      string
 	}
 	tests := []struct {
 		name    string
@@ -26,14 +26,14 @@ func TestBlock_ToJson(t *testing.T) {
 				"0000000000000000000000000000000000000000000000000000000000000000",
 				"ジェネシスブロック",
 				time.Date(2022, 4, 1, 0, 0, 0, 0, time.Local),
-				0x1e377777,
+				"1e377777",
 			},
 			want: "{" +
 				"\"Index\":0," +
 				"\"PrevHash\":\"0000000000000000000000000000000000000000000000000000000000000000\"," +
 				"\"Data\":\"ジェネシスブロック\"," +
 				"\"Timestamp\":\"2022-04-01T00:00:00+09:00\"," +
-				"\"Bits\":506951543" +
+				"\"Bits\":\"1e377777\"" +
 				"}",
 		},
 	}

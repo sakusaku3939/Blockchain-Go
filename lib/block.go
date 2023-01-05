@@ -11,7 +11,7 @@ type Block struct {
 	PrevHash  string
 	Data      string
 	Timestamp time.Time
-	Bits      int
+	Bits      string
 }
 
 func (b Block) ToJson() (string, error) {
