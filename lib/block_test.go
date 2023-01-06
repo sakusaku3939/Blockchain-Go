@@ -73,7 +73,7 @@ func TestBlock_ToJson(t *testing.T) {
 	}
 }
 
-func TestBlock_calcBlockHash(t *testing.T) {
+func TestBlock_CalcBlockHash(t *testing.T) {
 	tests := []struct {
 		name   string
 		fields fields
@@ -98,7 +98,7 @@ func TestBlock_calcBlockHash(t *testing.T) {
 				BlockHash:   tt.fields.BlockHash,
 				blockHeader: tt.fields.blockHeader,
 			}
-			if got := b.calcBlockHash(); got != tt.want {
+			if got := b.CalcBlockHash(); got != tt.want {
 				t.Errorf("calcBlockHash() = %v, want %v", got, tt.want)
 			}
 		})

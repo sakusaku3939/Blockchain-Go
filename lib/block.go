@@ -24,14 +24,14 @@ func (b Block) ToJson() (string, error) {
 	buf, err := json.Marshal(b)
 
 	if err != nil {
-		fmt.Printf("Failed to convert to JSON: %s", err)
+		fmt.Println(err)
 		return "", err
 	}
 
 	return string(buf), nil
 }
 
-func (b Block) calcBlockHash() string {
+func (b Block) CalcBlockHash() string {
 	b.blockHeader = strconv.Itoa(b.Index) + b.PrevHash + b.Data + b.Timestamp.String() + b.Bits
 	b.BlockHash = utils.SHA256(b.blockHeader)
 	return b.BlockHash
