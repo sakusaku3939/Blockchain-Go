@@ -1,8 +1,10 @@
 package lib
 
 import (
+	"Blockchain-Go/utils"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -27,4 +29,10 @@ func (b Block) ToJson() (string, error) {
 	}
 
 	return string(jsonData), nil
+}
+
+func (b Block) calcBlockHash() string {
+	b.blockHeader = strconv.Itoa(b.Index) + b.PrevHash + b.Data + b.Timestamp.String() + b.Bits
+	b.BlockHash = utils.SHA256(b.blockHeader)
+	return b.BlockHash
 }
