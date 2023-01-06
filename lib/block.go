@@ -21,14 +21,14 @@ type Block struct {
 }
 
 func (b Block) ToJson() (string, error) {
-	jsonData, err := json.Marshal(b)
+	buf, err := json.Marshal(b)
 
 	if err != nil {
 		fmt.Printf("Failed to convert to JSON: %s", err)
 		return "", err
 	}
 
-	return string(jsonData), nil
+	return string(buf), nil
 }
 
 func (b Block) calcBlockHash() string {
