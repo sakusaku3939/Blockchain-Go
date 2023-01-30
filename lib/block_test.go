@@ -10,11 +10,11 @@ type fields struct {
 	PrevHash    string
 	Data        string
 	Timestamp   time.Time
-	Bits        string
+	Bits        int
 	Nonce       int
 	ElapsedTime string
 	BlockHash   string
-	blockHeader string
+	BlockHeader string
 }
 
 var genesisBlock = fields{
@@ -22,7 +22,7 @@ var genesisBlock = fields{
 	"0000000000000000000000000000000000000000000000000000000000000000",
 	"ジェネシスブロック",
 	time.Date(2022, 4, 1, 0, 0, 0, 0, time.Local),
-	"1e377777",
+	0x1e377777,
 	0,
 	"",
 	"",
@@ -55,11 +55,15 @@ func TestBlock_ToJson(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			b := Block{
-				Index:     tt.fields.Index,
-				PrevHash:  tt.fields.PrevHash,
-				Data:      tt.fields.Data,
-				Timestamp: tt.fields.Timestamp,
-				Bits:      tt.fields.Bits,
+				Index:       tt.fields.Index,
+				PrevHash:    tt.fields.PrevHash,
+				Data:        tt.fields.Data,
+				Timestamp:   tt.fields.Timestamp,
+				Bits:        tt.fields.Bits,
+				Nonce:       tt.fields.Nonce,
+				ElapsedTime: tt.fields.ElapsedTime,
+				BlockHash:   tt.fields.BlockHash,
+				BlockHeader: tt.fields.BlockHeader,
 			}
 			got, err := b.ToJson()
 			if (err != nil) != tt.wantErr {
@@ -96,10 +100,42 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 				Nonce:       tt.fields.Nonce,
 				ElapsedTime: tt.fields.ElapsedTime,
 				BlockHash:   tt.fields.BlockHash,
-				blockHeader: tt.fields.blockHeader,
+				BlockHeader: tt.fields.BlockHeader,
 			}
 			if got := b.CalcBlockHash(); got != tt.want {
 				t.Errorf("calcBlockHash() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestBlock_CalcTarget(t *testing.T) {
+	tests := []struct {
+		name   string
+		fields fields
+		want   string
+	}{
+		{
+			name:   "Calculate target",
+			fields: genesisBlock,
+			want:   "377777000000000000000000000000000000000000000000000000000000",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := Block{
+				Index:       tt.fields.Index,
+				PrevHash:    tt.fields.PrevHash,
+				Data:        tt.fields.Data,
+				Timestamp:   tt.fields.Timestamp,
+				Bits:        tt.fields.Bits,
+				Nonce:       tt.fields.Nonce,
+				ElapsedTime: tt.fields.ElapsedTime,
+				BlockHash:   tt.fields.BlockHash,
+				BlockHeader: tt.fields.BlockHeader,
+			}
+			if got := b.CalcTarget(); got != tt.want {
+				t.Errorf("CalcTarget() = %v, want %v", got, tt.want)
 			}
 		})
 	}
