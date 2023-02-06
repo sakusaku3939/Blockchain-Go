@@ -1,45 +1,20 @@
 package lib
 
 import (
+	"Blockchain-Go/constant"
 	"testing"
-	"time"
 )
 
-type fields struct {
-	Index       int
-	PrevHash    string
-	Data        string
-	Timestamp   time.Time
-	Bits        int
-	Nonce       int
-	ElapsedTime string
-	BlockHash   string
-	BlockHeader string
-}
-
-var genesisBlock = fields{
-	0,
-	"0000000000000000",
-	"ジェネシスブロック",
-	time.Date(2022, 4, 1, 0, 0, 0, 0, time.Local),
-	0x9777777,
-	0,
-	"",
-	"",
-	"",
-}
-
 func TestBlock_ToJson(t *testing.T) {
-
 	tests := []struct {
 		name    string
-		fields  fields
+		fields  constant.BlockFields
 		want    string
 		wantErr bool
 	}{
 		{
 			name:   "Generate genesis block",
-			fields: genesisBlock,
+			fields: constant.GenesisBlock,
 			want: "{" +
 				"\"Index\":0," +
 				"\"PrevHash\":\"0000000000000000\"," +
@@ -54,7 +29,7 @@ func TestBlock_ToJson(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			b := Block{
+			b := &Block{
 				Index:       tt.fields.Index,
 				PrevHash:    tt.fields.PrevHash,
 				Data:        tt.fields.Data,
@@ -80,18 +55,18 @@ func TestBlock_ToJson(t *testing.T) {
 func TestBlock_CalcBlockHash(t *testing.T) {
 	tests := []struct {
 		name   string
-		fields fields
+		fields constant.BlockFields
 		want   string
 	}{
 		{
 			name:   "Calculate block hash",
-			fields: genesisBlock,
+			fields: constant.GenesisBlock,
 			want:   "a0a26ae7d8df4de5dfe368b1be842780a4790308f4c2762d0ce2f2b116b1e711",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			b := Block{
+			b := &Block{
 				Index:       tt.fields.Index,
 				PrevHash:    tt.fields.PrevHash,
 				Data:        tt.fields.Data,
@@ -112,18 +87,18 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 func TestBlock_CalcTarget(t *testing.T) {
 	tests := []struct {
 		name   string
-		fields fields
-		want   int
+		fields constant.BlockFields
+		want   int64
 	}{
 		{
 			name:   "Calculate target",
-			fields: genesisBlock,
+			fields: constant.GenesisBlock,
 			want:   0x7777770000000000,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			b := Block{
+			b := &Block{
 				Index:       tt.fields.Index,
 				PrevHash:    tt.fields.PrevHash,
 				Data:        tt.fields.Data,
@@ -136,6 +111,38 @@ func TestBlock_CalcTarget(t *testing.T) {
 			}
 			if got := b.CalcTarget(); got != tt.want {
 				t.Errorf("CalcTarget() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestBlock_CheckValidHash(t *testing.T) {
+	tests := []struct {
+		name   string
+		fields constant.BlockFields
+		want   bool
+	}{
+		{
+			name:   "Check valid hash",
+			fields: constant.GenesisBlock,
+			want:   true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := &Block{
+				Index:       tt.fields.Index,
+				PrevHash:    tt.fields.PrevHash,
+				Data:        tt.fields.Data,
+				Timestamp:   tt.fields.Timestamp,
+				Bits:        tt.fields.Bits,
+				Nonce:       tt.fields.Nonce,
+				ElapsedTime: tt.fields.ElapsedTime,
+				BlockHash:   tt.fields.BlockHash,
+				BlockHeader: tt.fields.BlockHeader,
+			}
+			if got := b.CheckValidHash(); got != tt.want {
+				t.Errorf("CheckValidHash() = %v, want %v", got, tt.want)
 			}
 		})
 	}

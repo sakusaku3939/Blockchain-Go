@@ -31,7 +31,7 @@ type jsonFields struct {
 	BlockHash   string
 }
 
-func (b Block) ToJson() (string, error) {
+func (b *Block) ToJson() (string, error) {
 	j := jsonFields{
 		Index:       b.Index,
 		PrevHash:    b.PrevHash,
@@ -52,15 +52,22 @@ func (b Block) ToJson() (string, error) {
 	return string(buf), nil
 }
 
-func (b Block) CalcBlockHash() string {
+func (b *Block) CalcBlockHash() string {
 	b.BlockHeader = strconv.Itoa(b.Index) + b.PrevHash + b.Data + b.Timestamp.String() + strconv.FormatInt(int64(b.Bits), 16)
 	b.BlockHash = utils.SHA256(b.BlockHeader)
+	fmt.Println("hash: ", b.BlockHash)
+
 	return b.BlockHash
 }
 
-func (b Block) CalcTarget() int {
+func (b *Block) CalcTarget() int64 {
 	exponentBytes := (b.Bits >> 24) - 4
 	exponentBits := exponentBytes * 8
 	coefficient := b.Bits & 0xffffff
-	return coefficient << exponentBits
+	return int64(coefficient << exponentBits)
+}
+
+func (b *Block) CheckValidHash() bool {
+	blockHash, _ := strconv.ParseInt(b.CalcBlockHash(), 16, 64)
+	return blockHash <= b.CalcTarget()
 }
