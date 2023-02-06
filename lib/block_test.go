@@ -19,10 +19,10 @@ type fields struct {
 
 var genesisBlock = fields{
 	0,
-	"0000000000000000000000000000000000000000000000000000000000000000",
+	"0000000000000000",
 	"ジェネシスブロック",
 	time.Date(2022, 4, 1, 0, 0, 0, 0, time.Local),
-	0x1e377777,
+	0x9777777,
 	0,
 	"",
 	"",
@@ -42,10 +42,10 @@ func TestBlock_ToJson(t *testing.T) {
 			fields: genesisBlock,
 			want: "{" +
 				"\"Index\":0," +
-				"\"PrevHash\":\"0000000000000000000000000000000000000000000000000000000000000000\"," +
+				"\"PrevHash\":\"0000000000000000\"," +
 				"\"Data\":\"ジェネシスブロック\"," +
 				"\"Timestamp\":\"2022-04-01T00:00:00+09:00\"," +
-				"\"Bits\":\"1e377777\"," +
+				"\"Bits\":\"9777777\"," +
 				"\"Nonce\":0," +
 				"\"ElapsedTime\":\"\"," +
 				"\"BlockHash\":\"\"" +
@@ -86,7 +86,7 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 		{
 			name:   "Calculate block hash",
 			fields: genesisBlock,
-			want:   "95b31c3377948a1fc8122376e946088a5cdbfa8a3bfc2f8aca974753009178db",
+			want:   "a0a26ae7d8df4de5dfe368b1be842780a4790308f4c2762d0ce2f2b116b1e711",
 		},
 	}
 	for _, tt := range tests {
@@ -113,12 +113,12 @@ func TestBlock_CalcTarget(t *testing.T) {
 	tests := []struct {
 		name   string
 		fields fields
-		want   string
+		want   int
 	}{
 		{
 			name:   "Calculate target",
 			fields: genesisBlock,
-			want:   "377777000000000000000000000000000000000000000000000000000000",
+			want:   0x7777770000000000,
 		},
 	}
 	for _, tt := range tests {

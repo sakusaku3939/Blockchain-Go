@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -59,15 +58,9 @@ func (b Block) CalcBlockHash() string {
 	return b.BlockHash
 }
 
-func (b Block) CalcTarget() string {
-	exponentBytes := (b.Bits >> 24) - 3
+func (b Block) CalcTarget() int {
+	exponentBytes := (b.Bits >> 24) - 4
 	exponentBits := exponentBytes * 8
 	coefficient := b.Bits & 0xffffff
-	return b.LeftShift(int64(coefficient), exponentBits)
-}
-
-func (b Block) LeftShift(target int64, count int) string {
-	hexTarget := strconv.FormatInt(target, 16)
-	result := hexTarget + strings.Repeat("0", count/4)
-	return result
+	return coefficient << exponentBits
 }
