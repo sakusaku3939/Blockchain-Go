@@ -17,10 +17,10 @@ func TestBlock_ToJson(t *testing.T) {
 			fields: constant.GenesisBlock,
 			want: "{" +
 				"\"Index\":0," +
-				"\"PrevHash\":\"0000000000000000\"," +
+				"\"PrevHash\":\"0000000000000000000000000000000000000000000000000000000000000000\"," +
 				"\"Data\":\"ジェネシスブロック\"," +
 				"\"Timestamp\":\"2022-04-01T00:00:00+09:00\"," +
-				"\"Bits\":\"9777777\"," +
+				"\"Bits\":\"1e777777\"," +
 				"\"Nonce\":0," +
 				"\"ElapsedTime\":\"\"," +
 				"\"BlockHash\":\"\"" +
@@ -61,7 +61,7 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 		{
 			name:   "Calculate block hash",
 			fields: constant.GenesisBlock,
-			want:   "a0a26ae7d8df4de5dfe368b1be842780a4790308f4c2762d0ce2f2b116b1e711",
+			want:   "043fc67d46fa23f4b076c4e1e3559d921b847138bfa74a8d8419029ad1e087c9",
 		},
 	}
 	for _, tt := range tests {
@@ -86,14 +86,14 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 
 func TestBlock_CalcTarget(t *testing.T) {
 	tests := []struct {
-		name   string
-		fields constant.BlockFields
-		want   int64
+		name    string
+		fields  constant.BlockFields
+		strWant string
 	}{
 		{
-			name:   "Calculate target",
-			fields: constant.GenesisBlock,
-			want:   0x7777770000000000,
+			name:    "Calculate target",
+			fields:  constant.GenesisBlock,
+			strWant: "777777000000000000000000000000000000000000000000000000000000",
 		},
 	}
 	for _, tt := range tests {
@@ -109,8 +109,8 @@ func TestBlock_CalcTarget(t *testing.T) {
 				BlockHash:   tt.fields.BlockHash,
 				BlockHeader: tt.fields.BlockHeader,
 			}
-			if got := b.CalcTarget(); got != tt.want {
-				t.Errorf("CalcTarget() = %v, want %v", got, tt.want)
+			if got := b.CalcTarget().Text(16); got != tt.strWant {
+				t.Errorf("CalcTarget() = %v, want %v", got, tt.strWant)
 			}
 		})
 	}

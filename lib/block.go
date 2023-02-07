@@ -4,6 +4,7 @@ import (
 	"Blockchain-Go/utils"
 	"encoding/json"
 	"fmt"
+	"math/big"
 	"strconv"
 	"time"
 )
@@ -53,21 +54,23 @@ func (b *Block) ToJson() (string, error) {
 }
 
 func (b *Block) CalcBlockHash() string {
-	b.BlockHeader = strconv.Itoa(b.Index) + b.PrevHash + b.Data + b.Timestamp.String() + strconv.FormatInt(int64(b.Bits), 16)
-	b.BlockHash = utils.SHA256(b.BlockHeader)
-	fmt.Println("hash: ", b.BlockHash)
+	strIndex := strconv.Itoa(b.Index)
+	strBits := strconv.FormatInt(int64(b.Bits), 16)
+	strNonce := strconv.Itoa(b.Nonce)
 
+	b.BlockHeader = strIndex + b.PrevHash + b.Data + b.Timestamp.String() + strBits + strNonce
+	b.BlockHash = utils.SHA256(b.BlockHeader)
 	return b.BlockHash
 }
 
-func (b *Block) CalcTarget() int64 {
-	exponentBytes := (b.Bits >> 24) - 4
+func (b *Block) CalcTarget() *big.Int {
+	exponentBytes := (b.Bits >> 24) - 3
 	exponentBits := exponentBytes * 8
-	coefficient := b.Bits & 0xffffff
-	return int64(coefficient << exponentBits)
+	coefficient := big.NewInt(int64(b.Bits & 0xffffff))
+	return coefficient.Lsh(coefficient, uint(exponentBits))
 }
 
 func (b *Block) CheckValidHash() bool {
 	blockHash, _ := strconv.ParseInt(b.CalcBlockHash(), 16, 64)
-	return blockHash <= b.CalcTarget()
+	return big.NewInt(blockHash).Cmp(b.CalcTarget()) != 1
 }
