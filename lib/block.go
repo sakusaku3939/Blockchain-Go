@@ -71,6 +71,10 @@ func (b *Block) CalcTarget() *big.Int {
 }
 
 func (b *Block) CheckValidHash() bool {
-	blockHash, _ := strconv.ParseInt(b.CalcBlockHash(), 16, 64)
-	return big.NewInt(blockHash).Cmp(b.CalcTarget()) != 1
+	blockHash, err := new(big.Int).SetString(b.CalcBlockHash(), 16)
+	if !err {
+		fmt.Println("SetString error: blockHash: ", blockHash)
+		return false
+	}
+	return blockHash.Cmp(b.CalcTarget()) != 1 // blockHash <= b.CalcTarget()
 }
