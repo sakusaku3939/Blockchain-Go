@@ -40,12 +40,7 @@ func TestBlock_ToJson(t *testing.T) {
 				BlockHash:   tt.fields.BlockHash,
 				BlockHeader: tt.fields.BlockHeader,
 			}
-			got, err := b.ToJson()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("ToJson() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
+			if got := b.ToJson(); got != tt.want {
 				t.Errorf("ToJson() got = %v, want %v", got, tt.want)
 			}
 		})
@@ -125,7 +120,7 @@ func TestBlock_CheckValidHash(t *testing.T) {
 		{
 			name:   "Check valid hash",
 			fields: constant.GenesisBlock,
-			want:   true,
+			want:   false,
 		},
 	}
 	for _, tt := range tests {

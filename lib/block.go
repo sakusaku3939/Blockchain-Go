@@ -32,7 +32,7 @@ type jsonFields struct {
 	BlockHash   string
 }
 
-func (b *Block) ToJson() (string, error) {
+func (b *Block) ToJson() string {
 	j := jsonFields{
 		Index:       b.Index,
 		PrevHash:    b.PrevHash,
@@ -47,10 +47,9 @@ func (b *Block) ToJson() (string, error) {
 
 	if err != nil {
 		fmt.Println(err)
-		return "", err
 	}
 
-	return string(buf), nil
+	return string(buf)
 }
 
 func (b *Block) CalcBlockHash() string {
