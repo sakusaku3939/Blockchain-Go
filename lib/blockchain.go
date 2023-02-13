@@ -38,6 +38,7 @@ func (c *Blockchain) Mining(b *Block) {
 		if b.CheckValidHash() {
 			diff := time.Now().Sub(startTime)
 			fmt.Println("finish mining: ", diff)
+			b.ElapsedTime = diff.String()
 			c.AddBlock(b)
 			c.GetBlockInfo(len(c.chain) - 1)
 			return
