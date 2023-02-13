@@ -2,7 +2,7 @@ package constant
 
 import "time"
 
-type BlockFields struct {
+type TestBlockFields struct {
 	Index       int
 	PrevHash    string
 	Data        string
@@ -14,10 +14,10 @@ type BlockFields struct {
 	BlockHeader string
 }
 
-var TestGenesisBlock = BlockFields{
+var TestBlock = TestBlockFields{
 	0,
 	"0000000000000000000000000000000000000000000000000000000000000000",
-	"Genesis block",
+	"Test block",
 	time.Date(2022, 4, 1, 0, 0, 0, 0, time.Local),
 	0x1e777777,
 	0,

@@ -8,17 +8,17 @@ import (
 func TestBlock_ToJson(t *testing.T) {
 	tests := []struct {
 		name    string
-		fields  constant.BlockFields
+		fields  constant.TestBlockFields
 		want    string
 		wantErr bool
 	}{
 		{
 			name:   "Generate genesis block",
-			fields: constant.TestGenesisBlock,
+			fields: constant.TestBlock,
 			want: "{" +
 				"\"Index\":0," +
 				"\"PrevHash\":\"0000000000000000000000000000000000000000000000000000000000000000\"," +
-				"\"Data\":\"Genesis block\"," +
+				"\"Data\":\"Test block\"," +
 				"\"Timestamp\":\"2022-04-01T00:00:00+09:00\"," +
 				"\"Bits\":\"1e777777\"," +
 				"\"Nonce\":0," +
@@ -50,13 +50,13 @@ func TestBlock_ToJson(t *testing.T) {
 func TestBlock_CalcBlockHash(t *testing.T) {
 	tests := []struct {
 		name   string
-		fields constant.BlockFields
+		fields constant.TestBlockFields
 		want   string
 	}{
 		{
 			name:   "Calculate block hash",
-			fields: constant.TestGenesisBlock,
-			want:   "b1c8246c60f711b4e8864646e6692e9e61718e25a7c2daf872d875962ebcb3b2",
+			fields: constant.TestBlock,
+			want:   "a60657db75a7ed3e7a4fca925f020fedb2264ba1b28c7094fdfa99051e0d1325",
 		},
 	}
 	for _, tt := range tests {
@@ -82,12 +82,12 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 func TestBlock_CalcTarget(t *testing.T) {
 	tests := []struct {
 		name    string
-		fields  constant.BlockFields
+		fields  constant.TestBlockFields
 		strWant string
 	}{
 		{
 			name:    "Calculate target",
-			fields:  constant.TestGenesisBlock,
+			fields:  constant.TestBlock,
 			strWant: "777777000000000000000000000000000000000000000000000000000000",
 		},
 	}
@@ -114,12 +114,12 @@ func TestBlock_CalcTarget(t *testing.T) {
 func TestBlock_CheckValidHash(t *testing.T) {
 	tests := []struct {
 		name   string
-		fields constant.BlockFields
+		fields constant.TestBlockFields
 		want   bool
 	}{
 		{
 			name:   "Check valid hash",
-			fields: constant.TestGenesisBlock,
+			fields: constant.TestBlock,
 			want:   false,
 		},
 	}
