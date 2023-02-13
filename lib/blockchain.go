@@ -5,31 +5,32 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+	"strconv"
 	"time"
 )
 
 type Blockchain struct {
-	initialBits int
-	chain       []Block
+	InitialBits int
+	Chain       []Block
 }
 
-func (c *Blockchain) AddBlock(b *Block) {
-	c.chain = append(c.chain, *b)
+func (bc *Blockchain) AddBlock(b *Block) {
+	bc.Chain = append(bc.Chain, *b)
 }
 
-func (c *Blockchain) GetBlockInfo(i int) {
-	if len(c.chain) <= 0 {
+func (bc *Blockchain) GetBlockInfo(i int) {
+	if len(bc.Chain) <= 0 {
 		return
 	}
 	var buf bytes.Buffer
-	err := json.Indent(&buf, []byte(c.chain[i].ToJson()), "", "  ")
+	err := json.Indent(&buf, []byte(bc.Chain[i].ToJson()), "", "  ")
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(buf.String())
 }
 
-func (c *Blockchain) Mining(b *Block) {
+func (bc *Blockchain) Mining(b *Block) {
 	startTime := time.Now()
 	fmt.Println("start mining")
 
@@ -39,9 +40,40 @@ func (c *Blockchain) Mining(b *Block) {
 			diff := time.Now().Sub(startTime)
 			fmt.Println("finish mining: ", diff)
 			b.ElapsedTime = diff.String()
-			c.AddBlock(b)
-			c.GetBlockInfo(len(c.chain) - 1)
+			bc.AddBlock(b)
+			bc.GetBlockInfo(len(bc.Chain) - 1)
 			return
 		}
 	}
+}
+
+func (bc *Blockchain) CreateGenesis() {
+	genesisBlock := &Block{
+		0,
+		"0000000000000000000000000000000000000000000000000000000000000000",
+		"Genesis block",
+		time.Now(),
+		0x1e777777,
+		0,
+		"",
+		"",
+		"",
+	}
+	bc.Mining(genesisBlock)
+}
+
+func (bc *Blockchain) AddNewBlock() {
+	lastBlock := bc.Chain[len(bc.Chain)-1]
+	b := &Block{
+		lastBlock.Index + 1,
+		lastBlock.BlockHash,
+		"Block " + strconv.Itoa(lastBlock.Index+1),
+		time.Now(),
+		lastBlock.Bits,
+		0,
+		"",
+		"",
+		"",
+	}
+	bc.Mining(b)
 }

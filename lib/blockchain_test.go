@@ -40,7 +40,7 @@ func TestBlock_Mining(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			b := Blockchain{
-				initialBits: tt.fields.initialBits,
+				InitialBits: tt.fields.initialBits,
 			}
 			b.Mining(tt.args.block)
 		})
