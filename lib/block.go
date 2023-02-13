@@ -55,7 +55,7 @@ func (b *Block) ToJson() string {
 func (b *Block) CheckValidHash() bool {
 	blockHash, err := new(big.Int).SetString(b.calcBlockHash(), 16)
 	if !err {
-		fmt.Println("SetString error: blockHash: ", blockHash)
+		fmt.Println("SetString error: ", blockHash)
 		return false
 	}
 	return blockHash.Cmp(b.calcTarget()) != 1 // blockHash <= b.calcTarget()
