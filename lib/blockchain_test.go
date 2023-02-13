@@ -42,7 +42,7 @@ func TestBlock_Mining(t *testing.T) {
 			b := Blockchain{
 				InitialBits: tt.fields.initialBits,
 			}
-			b.Mining(tt.args.block)
+			b.mining(tt.args.block)
 		})
 	}
 }

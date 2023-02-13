@@ -72,7 +72,7 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 				BlockHash:   tt.fields.BlockHash,
 				BlockHeader: tt.fields.BlockHeader,
 			}
-			if got := b.CalcBlockHash(); got != tt.want {
+			if got := b.calcBlockHash(); got != tt.want {
 				t.Errorf("calcBlockHash() = %v, want %v", got, tt.want)
 			}
 		})
@@ -104,8 +104,8 @@ func TestBlock_CalcTarget(t *testing.T) {
 				BlockHash:   tt.fields.BlockHash,
 				BlockHeader: tt.fields.BlockHeader,
 			}
-			if got := b.CalcTarget().Text(16); got != tt.strWant {
-				t.Errorf("CalcTarget() = %v, want %v", got, tt.strWant)
+			if got := b.calcTarget().Text(16); got != tt.strWant {
+				t.Errorf("calcTarget() = %v, want %v", got, tt.strWant)
 			}
 		})
 	}

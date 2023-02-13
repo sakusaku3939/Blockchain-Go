@@ -52,7 +52,16 @@ func (b *Block) ToJson() string {
 	return string(buf)
 }
 
-func (b *Block) CalcBlockHash() string {
+func (b *Block) CheckValidHash() bool {
+	blockHash, err := new(big.Int).SetString(b.calcBlockHash(), 16)
+	if !err {
+		fmt.Println("SetString error: blockHash: ", blockHash)
+		return false
+	}
+	return blockHash.Cmp(b.calcTarget()) != 1 // blockHash <= b.calcTarget()
+}
+
+func (b *Block) calcBlockHash() string {
 	strIndex := strconv.Itoa(b.Index)
 	strBits := strconv.FormatInt(int64(b.Bits), 16)
 	strNonce := strconv.Itoa(b.Nonce)
@@ -62,18 +71,9 @@ func (b *Block) CalcBlockHash() string {
 	return b.BlockHash
 }
 
-func (b *Block) CalcTarget() *big.Int {
+func (b *Block) calcTarget() *big.Int {
 	exponentBytes := (b.Bits >> 24) - 3
 	exponentBits := exponentBytes * 8
 	coefficient := big.NewInt(int64(b.Bits & 0xffffff))
 	return coefficient.Lsh(coefficient, uint(exponentBits))
-}
-
-func (b *Block) CheckValidHash() bool {
-	blockHash, err := new(big.Int).SetString(b.CalcBlockHash(), 16)
-	if !err {
-		fmt.Println("SetString error: blockHash: ", blockHash)
-		return false
-	}
-	return blockHash.Cmp(b.CalcTarget()) != 1 // blockHash <= b.CalcTarget()
 }
