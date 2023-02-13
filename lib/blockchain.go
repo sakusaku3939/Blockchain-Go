@@ -34,7 +34,7 @@ func (bc *Blockchain) Mining(b *Block) {
 	startTime := time.Now()
 	fmt.Println("start mining")
 
-	for i := 1; i < math.MaxInt32; i++ {
+	for i := 1; i <= math.MaxInt64; i++ {
 		b.Nonce = i
 		if b.CheckValidHash() {
 			diff := time.Now().Sub(startTime)
