@@ -14,7 +14,7 @@ type BlockFields struct {
 	BlockHeader string
 }
 
-var GenesisBlock = BlockFields{
+var TestGenesisBlock = BlockFields{
 	0,
 	"0000000000000000000000000000000000000000000000000000000000000000",
 	"Genesis block",

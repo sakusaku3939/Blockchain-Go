@@ -14,7 +14,7 @@ func TestBlock_ToJson(t *testing.T) {
 	}{
 		{
 			name:   "Generate genesis block",
-			fields: constant.GenesisBlock,
+			fields: constant.TestGenesisBlock,
 			want: "{" +
 				"\"Index\":0," +
 				"\"PrevHash\":\"0000000000000000000000000000000000000000000000000000000000000000\"," +
@@ -55,7 +55,7 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 	}{
 		{
 			name:   "Calculate block hash",
-			fields: constant.GenesisBlock,
+			fields: constant.TestGenesisBlock,
 			want:   "b1c8246c60f711b4e8864646e6692e9e61718e25a7c2daf872d875962ebcb3b2",
 		},
 	}
@@ -87,7 +87,7 @@ func TestBlock_CalcTarget(t *testing.T) {
 	}{
 		{
 			name:    "Calculate target",
-			fields:  constant.GenesisBlock,
+			fields:  constant.TestGenesisBlock,
 			strWant: "777777000000000000000000000000000000000000000000000000000000",
 		},
 	}
@@ -119,7 +119,7 @@ func TestBlock_CheckValidHash(t *testing.T) {
 	}{
 		{
 			name:   "Check valid hash",
-			fields: constant.GenesisBlock,
+			fields: constant.TestGenesisBlock,
 			want:   false,
 		},
 	}
