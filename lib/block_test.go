@@ -18,7 +18,7 @@ func TestBlock_ToJson(t *testing.T) {
 			want: "{" +
 				"\"Index\":0," +
 				"\"PrevHash\":\"0000000000000000000000000000000000000000000000000000000000000000\"," +
-				"\"Data\":\"ジェネシスブロック\"," +
+				"\"Data\":\"Genesis block\"," +
 				"\"Timestamp\":\"2022-04-01T00:00:00+09:00\"," +
 				"\"Bits\":\"1e777777\"," +
 				"\"Nonce\":0," +
@@ -56,7 +56,7 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 		{
 			name:   "Calculate block hash",
 			fields: constant.GenesisBlock,
-			want:   "043fc67d46fa23f4b076c4e1e3559d921b847138bfa74a8d8419029ad1e087c9",
+			want:   "b1c8246c60f711b4e8864646e6692e9e61718e25a7c2daf872d875962ebcb3b2",
 		},
 	}
 	for _, tt := range tests {

@@ -17,7 +17,7 @@ type BlockFields struct {
 var GenesisBlock = BlockFields{
 	0,
 	"0000000000000000000000000000000000000000000000000000000000000000",
-	"ジェネシスブロック",
+	"Genesis block",
 	time.Date(2022, 4, 1, 0, 0, 0, 0, time.Local),
 	0x1e777777,
 	0,
