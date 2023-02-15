@@ -59,13 +59,13 @@ func (b *Block) CheckValidHash() bool {
 
 func (b *Block) calcBlockHash() string {
 	strIndex := strconv.Itoa(b.Index)
-	strHash := b.PrevHash
+	strPrevHash := b.PrevHash
 	strData := b.Data
 	strTimestamp := b.Timestamp.String()
 	strBits := strconv.FormatInt(int64(b.Bits), 16)
 	strNonce := strconv.Itoa(b.Nonce)
 
-	b.BlockHeader = strIndex + strHash + strData + strTimestamp + strBits + strNonce
+	b.BlockHeader = strIndex + strPrevHash + strData + strTimestamp + strBits + strNonce
 	b.BlockHash = utils.SHA256(b.BlockHeader)
 	return b.BlockHash
 }
