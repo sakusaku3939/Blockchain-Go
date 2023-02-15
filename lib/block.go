@@ -53,20 +53,19 @@ func (b *Block) ToJson() string {
 }
 
 func (b *Block) CheckValidHash() bool {
-	blockHash, err := new(big.Int).SetString(b.calcBlockHash(), 16)
-	if !err {
-		fmt.Println("SetString error: ", blockHash)
-		return false
-	}
+	blockHash, _ := new(big.Int).SetString(b.calcBlockHash(), 16)
 	return blockHash.Cmp(b.calcTarget()) != 1 // blockHash <= b.calcTarget()
 }
 
 func (b *Block) calcBlockHash() string {
 	strIndex := strconv.Itoa(b.Index)
+	strHash := b.PrevHash
+	strData := b.Data
+	strTimestamp := b.Timestamp.String()
 	strBits := strconv.FormatInt(int64(b.Bits), 16)
 	strNonce := strconv.Itoa(b.Nonce)
 
-	b.BlockHeader = strIndex + b.PrevHash + b.Data + b.Timestamp.String() + strBits + strNonce
+	b.BlockHeader = strIndex + strHash + strData + strTimestamp + strBits + strNonce
 	b.BlockHash = utils.SHA256(b.BlockHeader)
 	return b.BlockHash
 }
