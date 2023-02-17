@@ -32,7 +32,7 @@ func (bc *Blockchain) CreateGenesis() {
 		"0000000000000000000000000000000000000000000000000000000000000000",
 		"Genesis block",
 		time.Now(),
-		0x1e777777,
+		bc.InitialBits,
 		0,
 		"",
 		"",
