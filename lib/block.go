@@ -18,7 +18,6 @@ type Block struct {
 	Nonce       int
 	ElapsedTime string
 	BlockHash   string
-	BlockHeader string
 }
 
 type jsonFields struct {
@@ -65,8 +64,8 @@ func (b *Block) calcBlockHash() string {
 	strBits := strconv.FormatInt(int64(b.Bits), 16)
 	strNonce := strconv.Itoa(b.Nonce)
 
-	b.BlockHeader = strIndex + strPrevHash + strData + strTimestamp + strBits + strNonce
-	b.BlockHash = utils.SHA256(b.BlockHeader)
+	blockHeader := strIndex + strPrevHash + strData + strTimestamp + strBits + strNonce
+	b.BlockHash = utils.SHA256(blockHeader)
 	return b.BlockHash
 }
 

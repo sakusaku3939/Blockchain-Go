@@ -32,7 +32,6 @@ func TestBlock_Mining(t *testing.T) {
 					Nonce:       constant.TestBlock.Nonce,
 					ElapsedTime: constant.TestBlock.ElapsedTime,
 					BlockHash:   constant.TestBlock.BlockHash,
-					BlockHeader: constant.TestBlock.BlockHeader,
 				},
 			},
 		},

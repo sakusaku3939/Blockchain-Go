@@ -38,7 +38,6 @@ func TestBlock_ToJson(t *testing.T) {
 				Nonce:       tt.fields.Nonce,
 				ElapsedTime: tt.fields.ElapsedTime,
 				BlockHash:   tt.fields.BlockHash,
-				BlockHeader: tt.fields.BlockHeader,
 			}
 			if got := b.ToJson(); got != tt.want {
 				t.Errorf("ToJson() got = %v, want %v", got, tt.want)
@@ -70,7 +69,6 @@ func TestBlock_CalcBlockHash(t *testing.T) {
 				Nonce:       tt.fields.Nonce,
 				ElapsedTime: tt.fields.ElapsedTime,
 				BlockHash:   tt.fields.BlockHash,
-				BlockHeader: tt.fields.BlockHeader,
 			}
 			if got := b.calcBlockHash(); got != tt.want {
 				t.Errorf("calcBlockHash() = %v, want %v", got, tt.want)
@@ -102,7 +100,6 @@ func TestBlock_CalcTarget(t *testing.T) {
 				Nonce:       tt.fields.Nonce,
 				ElapsedTime: tt.fields.ElapsedTime,
 				BlockHash:   tt.fields.BlockHash,
-				BlockHeader: tt.fields.BlockHeader,
 			}
 			if got := b.calcTarget().Text(16); got != tt.strWant {
 				t.Errorf("calcTarget() = %v, want %v", got, tt.strWant)
@@ -134,7 +131,6 @@ func TestBlock_CheckValidHash(t *testing.T) {
 				Nonce:       tt.fields.Nonce,
 				ElapsedTime: tt.fields.ElapsedTime,
 				BlockHash:   tt.fields.BlockHash,
-				BlockHeader: tt.fields.BlockHeader,
 			}
 			if got := b.CheckValidHash(); got != tt.want {
 				t.Errorf("CheckValidHash() = %v, want %v", got, tt.want)

@@ -36,7 +36,6 @@ func (bc *Blockchain) CreateGenesis() {
 		0,
 		"",
 		"",
-		"",
 	}
 	bc.mining(genesisBlock)
 }
@@ -50,7 +49,6 @@ func (bc *Blockchain) AddNewBlock() {
 		time.Now(),
 		lastBlock.Bits,
 		0,
-		"",
 		"",
 		"",
 	}
